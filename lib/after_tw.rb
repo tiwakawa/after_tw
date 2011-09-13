@@ -1,12 +1,10 @@
 # coding: utf-8
 
 module AfterTw
-  require 'after_tw/engine' if defined?(Rails)
-
   mattr_accessor :config
 
   def self.configure!
-    self.config = AfterTw::Engine.config.after_tw
+    self.config = YAML.load_file("#{Rails.root}/config/initializers/after_tw.yml")[Rails.env].symbolize_keys
     require 'after_tw/configure'
   end
 
