@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "after_tw"
   gem.homepage = "http://github.com/tiwakawa/after_tw"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Tweet after ActiveRecord Object saving.}
+  gem.description = %Q{Tweet after ActiveRecord Object saving.}
   gem.email = "t.iwakawa@ist-corp.jp"
   gem.authors = ["tiwakawa"]
   # dependencies defined in Gemfile
