@@ -2,29 +2,41 @@
 Tweet after ActiveRecord Object saving.
 
 == Indispensable conditions
-* You have a User model.
-* You have a ExternalApps model.
-* User model and ExternalApps model are one to many relations. 
-* ExternalApps model has token and secret records.
+* You have a User model. And have relations to ExternalApps model.
+    class User < ActiveRecord::Base
+      has_many :external_apps
+    end
 
-== Settings
+* You have a ExternalApps model. And have relations to User model. And have following scopes.
+    class ExternalApps < ActiveRecord::Base
+      belongs_to :user
+      scope :twitter, lambda { where(:provider => "twitter") }
+    end
+
+* ExternalApps model has provider, uid, token and secret records.
+    @tw = @user.external_apps.twitter.first
+    @tw.provider # => "twitter"
+    @tw.uid      # => YOUR UID of Twitter
+    @tw.token    # => YOUR ACCESS TOKEN
+    @tw.secret   # => YOUR ACCESS SECRET
+
+== How to use
 Gemfile
   gem 'after_tw'
 
-config/initializers/after_tw.rb
-  module AfterTw
-    class Engine < Rails::Engine
-      config.after_tw = {
-        :consumer_key    => "YOUR CONSUMER KEY",
-        :consumer_secret => "YOUR CONSUMER SECRET"
-      }
-    end
+config/initializers/after_tw.yml
+  development:
+    consumer_key:    "YOUR CONSUMER KEY"
+    consumer_secret: "YOUR CONSUMER SECRET"
+  production:
+
+apps/models/blog.rb
+  class Blog < ActiveRecord::Base
+    after_tw :comment
   end
- 
-apps/models/some.rb
-  class Some < ActiveRecord::Base
-    after_tw :body
-  end
+
+You specify a record which you want to tweet in your model.
+When you do not a specify record, "title" is specified.
 
 == Contributing to after_tw
  
